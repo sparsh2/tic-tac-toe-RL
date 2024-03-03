@@ -62,9 +62,9 @@ func main() {
 		LearningRate:           0.1,
 	}, agentLogger, models.O)
 
-	times := 10000
+	trainEpisodes := 10000
 
-	for i := 0; i < times; i++ {
+	for i := 0; i < trainEpisodes; i++ {
 		board.Reset()
 
 		for !board.IsDone() && !board.IsDecisive() {
@@ -91,12 +91,12 @@ func main() {
 
 		// board.PrintHistory()
 
-		if i%100 == 0 || i == times-1 {
+		if i%100 == 0 || i == trainEpisodes-1 {
 			board.PrintHistory()
 		}
 	}
 
-	times = 20
+	trainEpisodes = 10000
 	fmt.Println(c)
 	agentX = player.NewAgent(valFn, &player.AgentParameters{
 		Mode:                   player.PlayMode,
@@ -108,7 +108,7 @@ func main() {
 		ExploratoryProbability: 0.0,
 		LearningRate:           0.01,
 	}, agentLogger, models.O)
-	for i := 0; i < times; i++ {
+	for i := 0; i < trainEpisodes; i++ {
 		board.Reset()
 
 		for !board.IsDone() && !board.IsDecisive() {
@@ -125,6 +125,7 @@ func main() {
 				board.Print()
 				fmt.Printf("value of board: %f\n", valFn[board.String()])
 			} else {
+				fmt.Print("Enter move(r c): ")
 				mv := getUserMove(board)
 				board.Apply(mv)
 				board.Print()
